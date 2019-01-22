@@ -746,11 +746,11 @@ namespace PetaPoco
                         object val = cmd.ExecuteScalar();
                         OnExecutedCommand(cmd);
 
-                        // Handle nullable types
-                        Type u = Nullable.GetUnderlyingType(typeof(T));
-                        if (u != null && (val == null || val == DBNull.Value))
+                        if (val == null || val == DBNull.Value)
                             return default(T);
 
+                        // Handle nullable types
+                        Type u = Nullable.GetUnderlyingType(typeof(T));
                         return (T)Convert.ChangeType(val, u == null ? typeof(T) : u);
                     }
                 }
